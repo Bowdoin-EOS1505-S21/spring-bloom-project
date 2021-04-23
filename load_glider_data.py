@@ -131,11 +131,11 @@ def load_hb_profile(sgid,dive_number):
     s0 = df_profile_filtered['s0']
     
     # Even nan can be an issue, so drop those too,
-    de = de[~np.isnan(de)]
-    te = te[~np.isnan(te)]
-    sa = sa[~np.isnan(sa)]
-    th = th[~np.isnan(th)]
-    s0 = s0[~np.isnan(s0)]
+    #de = de[~np.isnan(de)]
+    #te = te[~np.isnan(te)]
+    #sa = sa[~np.isnan(sa)]
+    #th = th[~np.isnan(th)]
+    #s0 = s0[~np.isnan(s0)]
     
     # Get the lon and lat associated with this profile
     # Also, get the year, month, day.
