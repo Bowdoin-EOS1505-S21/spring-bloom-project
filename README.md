@@ -5,7 +5,7 @@ The rest of this file contains some technical detail that is beyond the scope of
 
 # Climatology hydrographic profiles
 
-Here are some notes about pulling the data from [Gary et al. (2018)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2017JC013350).
+Here are some notes about pulling the data from [Gary et al. (2018)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2017JC013350).  This is implemented in `get_climatology_profiles.sh`
 
 Started with the `all.espna.nf.1950to2015.ge200.hb.rchk2_schk2.stb.ALL.hnc.smo.1.15.gz`
 series of 3D climatologies where `ALL` can be replaced with a season in the list
