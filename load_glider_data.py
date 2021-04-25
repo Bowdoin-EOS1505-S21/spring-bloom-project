@@ -16,6 +16,7 @@ pyferret.addenv(FER_DIR='/mnt/local/pyferret', FER_DAT='/mnt/local/FerretDataset
 pyferret.start(journal=False, quiet=True, unmapped=True)
 import numpy as np
 import pandas as pd
+import datetime
 
 #==========================================
 # This is a very simple function for the
@@ -239,3 +240,41 @@ def load_topo():
     [y,x] = np.meshgrid(lat,lon)
     
     return x, y, topo
+
+#==========================================
+# Function to load sea surface color
+#==========================================
+# INPUTS:
+# 1) lon = longitude
+# 2) lat = latitude
+# 3) dt = <8D|R3QL>
+#
+# The output of this function is a time series
+# of sea surface cholorphyll.
+#
+# Stefan Gary, 2021
+# This code is distributed under the terms
+# of the GNU GPL v3 and any later version.
+# See LICENSE.txt
+#==========================================
+def load_chl(lon, lat, dt):
+    # Load the data set and store as a Python variable
+    (e_v, e_m) = pyferret.run('cancel data /all')
+    (e_v, e_m) = pyferret.run('cancel variables /all')
+    (e_v, e_m) = pyferret.run(
+        'use /mnt/courses/eos1505/MODIS/MODIS_'+dt+'.cdf')
+    chl_dict = pyferret.getdata('CHL_FILL[x='+str(lon)+', y='+str(lat)+']',False)
+
+    # Put the data into Python arrays
+    chl = np.squeeze(chl_dict['data'])
+
+    # Mask out fill values
+    chl[chl < 0] = np.nan
+    
+    ymdhms = np.zeros(np.shape(chl_dict['axis_coords'][3])).astype(int)
+    ymdhms[:,0] = chl_dict['axis_coords'][3][:,2].astype(int)
+    ymdhms[:,1] = chl_dict['axis_coords'][3][:,1].astype(int)
+    ymdhms[:,2] = chl_dict['axis_coords'][3][:,0].astype(int)
+    chl_dates = [datetime.datetime(*dd) for dd in ymdhms]
+ 
+    return chl, chl_dates
